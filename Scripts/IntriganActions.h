@@ -1,26 +1,11 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <./Main_structs.h>
-#include <./Tree.h>
 
+void MakeFriends();
 
-void make_Friends() {
+void FallOut(); 
 
-};
+void BecomeASlave();
 
-void fall_Out() {
+void ForceToBeASlave();
 
-};
-
-void become_a_Servant() {
-
-};
-
-void force() {
-
-};
-
-void conspire() {
-
-};
+void Conspire();
