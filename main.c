@@ -2,7 +2,7 @@
 
 #include "./Scripts/MainStructs.h"
 #include "./Scripts/Tree.h"
-#include "./Scripts/IntriganActions.h"
+#include "./Scripts/SchemerActions.h"
 #include "./Scripts/AlgorithmPatterns.h"
 #include "./Scripts/ConspiracyAlgorithm.h"
 

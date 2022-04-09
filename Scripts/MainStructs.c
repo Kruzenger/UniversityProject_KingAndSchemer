@@ -2,16 +2,21 @@
 
 #include "./MainStructs.h"
 
-struct Person
+struct person
 {
-    int num;
-    Person * lord;
-    Person ** friends;
-    Person ** slaves;
+    int name;
+
+    Person * Lord;
+
+    Person * friends[0];
+    Person * LastFriend;
+
+    Person * slaves[0];
+    Person * LastSlave;
 };
 
-struct Tree
+struct tree
 {
-    Person King;
-    Person Schemer;
+    Person * King;
+    Person * Schemer;
 };
