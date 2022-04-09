@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct Person Person;
+typedef struct person Person;
 
-typedef struct Tree Tree;
+typedef struct tree Tree;
+
+typedef struct connection Connection; 
