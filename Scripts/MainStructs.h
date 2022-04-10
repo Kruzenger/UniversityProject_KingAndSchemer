@@ -11,10 +11,10 @@ typedef struct person_st
 
     struct person_st * Lord;
 
-    struct person_st * friends[0];
+    struct person_st * Friends[0];
     struct person_st * LastFriend;
 
-    struct person_st * slaves[0];
+    struct person_st * Slaves[0];
     struct person_st * LastSlave;
 }Person;
 

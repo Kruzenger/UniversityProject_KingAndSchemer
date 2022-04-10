@@ -8,6 +8,6 @@ FriendPersone * FindChainOfFriendsToUs(Person * person, Person * schemer); // Fi
 
 // Some functions for findChainOfFriends function
 
-bool CheckIfFriends(Person * firstPerson, Person * anotherPerson); // checks if persons are friends
+bool CheckIfFriends(Person * firstPerson, Person * lastPerson); // checks if persons are friends +++
 
 

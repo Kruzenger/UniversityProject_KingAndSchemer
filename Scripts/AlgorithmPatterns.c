@@ -10,8 +10,12 @@ Person * CheckIfPersonASlave(Person * person)
     return person->Lord;
 }
 
-bool CheckIfHasGeneralLord(Person * firstPerson, Person * lastPerson)
+bool CheckIfFriends(Person * firstPerson, Person * lastPerson)
 {
-    return (firstPerson->Lord == lastPerson->Lord);
+    for (int i = 0; firstPerson->Friends[i] == firstPerson->LastFriend; i++)
+        if(firstPerson->Friends[i] == lastPerson)
+            return true;
+
+    return false;
 }
 
