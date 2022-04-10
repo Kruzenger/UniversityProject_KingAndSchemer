@@ -1,13 +1,9 @@
 #include <stdio.h>
 
-Person * CheckIfPersonASlave(Person * person); // checks if person has a lord +++
+FriendPerson * FindChainOfFriendsToOurSlave(Person * person, Person * schemer, int numOfMen); // Finds chain of friends to our slave +++
 
-FriendPersone * FindChainOfFriendsToOurSlave(Person * person, Person * schemer); // Finds chain of friends to our slave
-
-FriendPersone * FindChainOfFriendsToUs(Person * person, Person * schemer); // Finds chain of friends to us
+FriendPerson * FindChainOfFriendsToUs(Person * person, Person * schemer, int numOfMen); // Finds chain of friends to us +++
 
 // Some functions for findChainOfFriends function
-
-bool CheckIfFriends(Person * firstPerson, Person * lastPerson); // checks if persons are friends +++
 
 

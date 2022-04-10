@@ -12,25 +12,25 @@ typedef struct person_st
     struct person_st * Lord;
 
     struct person_st * Friends[0];
-    struct person_st * LastFriend;
+    struct person_st ** LastFriend;
 
     struct person_st * Slaves[0];
-    struct person_st * LastSlave;
+    struct person_st ** LastSlave;
 }Person;
 
 typedef struct tree_st
 {
+    int n;
+    int k;
+
     Person * King;
     Person * Schemer;
 }Tree;
 
-typedef struct friendPersone_st
+typedef struct friendPerson_st
 {
-    bool type;
-
-    Person * person;
-    // struct friendPersone_st * previous;
-    struct friendPersone_st * next;
-}FriendPersone;
+    Person * Person;
+    struct friendPerson_st * Previous;
+}FriendPerson;
 
 #endif
