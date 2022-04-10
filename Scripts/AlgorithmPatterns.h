@@ -8,10 +8,6 @@ FriendPersone * FindChainOfFriendsToUs(Person * person, Person * schemer); // Fi
 
 // Some functions for findChainOfFriends function
 
-bool CheckFriendLimit(Person * person, int limit); // Check is there friend limit
-
-bool CheckIfHasGeneralLord(Person * firstPerson, Person * anotherPerson); // checks if persons has general lord +++
-
 bool CheckIfFriends(Person * firstPerson, Person * anotherPerson); // checks if persons are friends
 
 

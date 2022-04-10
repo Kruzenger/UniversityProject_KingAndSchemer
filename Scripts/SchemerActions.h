@@ -3,6 +3,10 @@
 
 #include "./MainStructs.h"
 
+bool CheckFriendLimit(Person * person, int limit); // Check is there friend limit
+
+bool CheckIfHasGeneralLord(Person * firstPerson, Person * anotherPerson); // checks if persons has general lord +++
+
 bool CanMakeFriends(Person * Schemer, Person * person); // checks if you can become friends with a person
 
 void MakeFriends(Person * Schemer, Person * person); // makes friends with a person
