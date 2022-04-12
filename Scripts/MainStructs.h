@@ -20,17 +20,15 @@ typedef struct person_st
 
 typedef struct tree_st
 {
-    int n;
-    int k;
-
     Person * King;
     Person * Schemer;
+    int k, n;
 }Tree;
 
-typedef struct friendPerson_st
+typedef struct FriendPersone_st
 {
-    Person * Person;
-    struct friendPerson_st * Previous;
-}FriendPerson;
+    Person * person;
+    struct friendPersone_st * Previous;
+}FriendPersone;
 
 #endif
