@@ -3,10 +3,20 @@
 
 #include "./MainStructs.h"
 
-char * TreeRead(); // Считывает всех персон из файла и возвращает список персон
+int fsize(FILE *fp);
 
-Person * PersonsCreate(int num); // Создаёт персон
+int get_fsize(FILE *input);
 
-Tree TreeCreate(Person * persons); // Объединяет персон, как-либо связанных с королём в компаненту связанности
+int CountLines(FILE *input);
+
+void ReadNumbers (FILE *input, Tree *tree);
+
+void FileWorker(Tree *tree, OperationLine *operationLines);
+
+OperationLine * RelationsRead(FILE * input, int n);
+
+Person * PersonsCreate(); // Создаёт персон
+
+void TreeCreate(Tree *tree, Person * persons, OperationLine *lines); // Объединяет персон, как-либо связанных с королём в компаненту связанности
 
 Person * GetPerson(Tree * tree); // ищет и возвращает персону из дерева
