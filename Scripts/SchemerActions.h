@@ -3,11 +3,15 @@
 
 #include "./MainStructs.h"
 
+Person * CheckIfPersonASlave(Person * person); // checks if person has a lord +++
+
+bool CheckIfFriends(Person * firstPerson, Person * SecondPerson); // checks if persons are friends +++
+
 bool CheckFriendLimit(Person * person, int limit); // Check is there friend limit
 
 bool CheckIfHasGeneralLord(Person * firstPerson, Person * anotherPerson); // checks if persons has general lord +++
 
-bool CanMakeFriends(Person * Schemer, Person * person); // checks if you can become friends with a person
+bool CanMakeFriends(Person * Schemer, Person * person, int k); // checks if you can become friends with a person
 
 void MakeFriends(Person * Schemer, Person * person); // makes friends with a person
 

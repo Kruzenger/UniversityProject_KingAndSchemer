@@ -1,36 +1,61 @@
+
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
 
-#ifndef MAINSTRUCTS_H
-#define MAINSTRUCTS_H
+#ifndef A_H_INCLUDED // идентификатор ещё не определён
+#define A_H_INCLUDED // определяем
 
-typedef struct person_st
+typedef struct operationLine_st{
+    char operation;
+    int person1;
+    int person2;
+    int NumOfOperation;
+}OperationLine;
+
+typedef struct friends_st
 {
-    int name;
-
-    struct person_st * Lord;
-
     struct person_st * Friends[0];
     struct person_st ** LastFriend;
+    
+}Friends;
 
-    struct person_st * Slaves[0];
-    struct person_st ** LastSlave;
+
+
+
+typedef struct slaves_st
+{
+
+struct person_st * Slaves[0];
+struct person_st ** LastSlave;
+
+}Slaves;
+
+
+
+typedef struct person_st{
+    int name;
+    
+    struct person_st * Lord;
+    
+    Friends FriendsList;
+    Slaves SlavesList;
 }Person;
 
 typedef struct tree_st
 {
     int n;
     int k;
-
     Person * King;
     Person * Schemer;
 }Tree;
 
-typedef struct friendPerson_st
+
+typedef struct friendPersone_st
 {
-    Person * Person;
-    struct friendPerson_st * Previous;
-}FriendPerson;
+    //bool type;
+    Person * person;
+    // struct friendPersone_st * previous;
+    struct friendPersone_st * next;
+}FriendPersone;
 
 #endif
