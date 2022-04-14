@@ -4,11 +4,15 @@
 
 #include "./Scripts/Tree.h"
 #include "./Scripts/SchemerActions.h"
-#include "./Scripts/AlgorithmPatterns.h"
-#include "./Scripts/ConspiracyAlgorithm.h"
+// #include "./Scripts/ConspiracyAlgorithm.h"
 #include "./Scripts/MainStructs.h"
 
-int main()
-{
-
+int main() {
+    Tree tree;
+    Person *Persons;
+    OperationLine *operationLines;
+    FileWorker(&tree, &operationLines);
+    TreeCreate(&tree, &Persons, operationLines);
+    free(operationLines);
+    free(Persons);
 }
