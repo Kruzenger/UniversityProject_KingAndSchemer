@@ -20,3 +20,5 @@ Person * PersonsCreate(Tree *tree); // Создаёт персон
 void TreeCreate(Tree *tree, Person ** persons, OperationLine *lines); // Объединяет персон, как-либо связанных с королём в компаненту связанности
 
 Person * GetPerson(Tree * tree); // ищет и возвращает персону из дерева
+
+void FreeTree(Person ** Persons, int n);

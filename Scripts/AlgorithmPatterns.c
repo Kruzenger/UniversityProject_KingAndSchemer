@@ -4,91 +4,102 @@
 
 #include "./MainStructs.h"
 #include "./AlgorithmPatterns.h"
+#include "./SchemerActions.h"
 
-bool IsInCloseList(FriendPerson * closeList[0], FriendPerson * person)
+void AddPerson(Person * friendPerson, Person ** personsPassed)
 {
-    for(int i = 0; closeList[i]; i++)
-        if(closeList[i] == person)
+    int i = 0;
+    for(i = 0; personsPassed[i]; i++);
+
+    personsPassed[i] = friendPerson;
+}
+
+bool IsInPersonPassed(Person * friendPerson, Person ** personsPassed)
+{
+    for(int i = 0; personsPassed[i]; i++)
+        if(personsPassed[i] == friendPerson)
             return true;
 
     return false;
 }
 
-bool IsInOpenList(FriendPerson * openList[0], FriendPerson * person)
+FriendPerson ** FindChainOfFriendsToUs(Person * headPerson, Person * lord, int numOfMen, bool slaves)
 {
-    for(int i = 0; openList[i]; i++)
-        if(openList[i]->Person == person->Person)
-            return true;
-            
-    return false;
-}
+    FriendPerson ** Chains;
+    Chains = (FriendPerson **)calloc(numOfMen, sizeof(FriendPerson *));
+    int counter = 0;
 
-FriendPerson ** AddPersonsToOpenList(FriendPerson * oldOpenList[0], FriendPerson * closeList[0], int numOfMen, bool isSlave)
-{
-    FriendPerson * openList[numOfMen];
+    Person ** personsPassed = calloc(numOfMen, sizeof(Person*));
+    personsPassed[0] = headPerson;
 
-    int sizeOfOpenList = 0;
-    int sizeOfCloseList = 0;
-
-    for(int i = 0; oldOpenList[i]; i++)
+    for (int i = 0; headPerson->FriendsList.Friends[i]; i++)
     {
-        for(int j = 0; oldOpenList[i]->Person->Friends[j]; j++)
+        Chains[counter] = RecursiveFindOfChain(headPerson->FriendsList.Friends[i], lord, personsPassed, slaves);
+        if(Chains[counter] != NULL)
         {
-            FriendPerson * person = (FriendPerson *)calloc(1, sizeof(FriendPerson));
-            person->Person = oldOpenList[i]->Person->Friends[j];
-            person->Previous = oldOpenList[i];
+            FriendPerson * friendPerson = (FriendPerson *)calloc(1, sizeof(FriendPerson));
+            friendPerson->person = headPerson;
+            friendPerson->next = Chains[counter];
+            Chains[counter]->previous = friendPerson;
 
-            if(!oldOpenList[i]->Person->Friends[j]->Lord && !IsInOpenList(openList, person) && !IsInCloseList(closeList, person))
-                if(!oldOpenList[i]->Person->Friends[j]->Lord || !isSlave)
-                {
-                    openList[sizeOfOpenList] = person;
-                    sizeOfOpenList++;
-                }
+            for(int j = 0; Chains[counter + 1]; j++)
+            {
+                Chains[counter] = Chains[counter]->next;
+            }
+            counter++;
         }
-
-        closeList[sizeOfCloseList] = oldOpenList[i];
     }
 
-    return openList;
+    free(personsPassed);
+
+    return Chains;
 }
 
-FriendPerson * FindChainOfFriendsToOurSlave(Person * person, Person * schemer, int numOfMen)
+FriendPerson * RecursiveFindOfChain(Person * headPerson, Person * lord, Person ** personsPassed, bool slaves)
 {
-    FriendPerson * openList[numOfMen];
-    FriendPerson * closeList[numOfMen];
+    if(slaves && headPerson->Lord == lord)
+        return NULL;
 
-    openList[0]->Person = person;
-
-    while(openList[0] != NULL)
+    if(headPerson->Lord == lord)
     {
-        for (int i = 0; openList[i] != NULL; i++)
-            for(int j = 0; schemer->Slaves[j] != NULL; j++)
-                if(openList[i]->Person == schemer->Slaves[j])
-                    return openList[i]; 
-
-        openList = AddPersonsToOpenList(openList, closeList, numOfMen, true);
+        FriendPerson * friendPerson = (FriendPerson *)calloc(1, sizeof(FriendPerson));
+        friendPerson->person = headPerson;
+        return friendPerson;
     }
-    
+
+    AddPerson(headPerson, personsPassed);
+
+    for(int i = 0; headPerson->FriendsList.Friends[i]; i++)
+    {
+        if(!IsInPersonPassed(headPerson->FriendsList.Friends[i], personsPassed))
+        {
+            FriendPerson * friendPersonNext = RecursiveFindOfChain(headPerson->FriendsList.Friends[i], lord, personsPassed, slaves);
+            if(friendPersonNext != NULL)
+            {
+                FriendPerson * friendPerson = (FriendPerson *)calloc(1, sizeof(FriendPerson));
+                friendPerson->person = headPerson;
+                friendPerson->next = friendPersonNext;
+                friendPersonNext->previous = friendPerson;
+                return friendPerson;
+            }
+        }
+    }
+
     return NULL;
 }
 
-FriendPerson * FindChainOfFriendsToUs(Person * person, Person * schemersLord, int numOfMen)
+void FreeChains(FriendPerson ** Chains)
 {
-    FriendPerson * openList[numOfMen];
-    FriendPerson * closeList[numOfMen];
-
-    openList[0]->Person = person;
-
-    while(openList[0] != NULL)
+    for(int i = 0; Chains[i] != NULL; i++)
     {
-        for (int i = 0; openList[i] != NULL; i++)
-            for(int j = 0; schemersLord->Slaves[j] != NULL; j++)
-                if(openList[i]->Person == schemersLord->Slaves[j])
-                    return openList[i]; 
-
-        openList = AddPersonsToOpenList(openList, closeList, numOfMen, false);
+        while(Chains[i]->previous != NULL)
+        {
+            free(Chains[i]->next);
+            Chains[i] = Chains[i]->previous;
+        }
+        free(Chains[i]->next);
+        free(Chains[i]);
     }
-    
-    return NULL;
+    free(Chains);
 }
 

@@ -1,9 +1,12 @@
 #include <stdio.h>
 
-FriendPerson * FindChainOfFriendsToOurSlave(Person * person, Person * schemer, int numOfMen); // Finds chain of friends to our slave +++
-
-FriendPerson * FindChainOfFriendsToUs(Person * person, Person * schemer, int numOfMen); // Finds chain of friends to us +++
+FriendPerson ** FindChainOfFriendsToUs(Person * headPerson, Person * schemersLord, int numOfMen, bool slaves); // Finds chain of friends to us +++
 
 // Some functions for findChainOfFriends function
+
+FriendPerson * RecursiveFindOfChain(Person * headPerson, Person * schemersLord, Person ** personsPassed, bool slaves); // Recursive
+
+void FreeChains(FriendPerson ** chains);
+
 
 

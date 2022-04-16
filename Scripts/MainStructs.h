@@ -12,25 +12,22 @@ typedef struct operationLine_st{
     int NumOfOperation;
 }OperationLine;
 
+
+
 typedef struct friends_st
 {
-    struct person_st * Friends[0];
+    struct person_st ** Friends;
     struct person_st ** LastFriend;
     
 }Friends;
 
-
-
-
 typedef struct slaves_st
 {
 
-struct person_st * Slaves[0];
+struct person_st ** Slaves;
 struct person_st ** LastSlave;
 
 }Slaves;
-
-
 
 typedef struct person_st{
     int name;
@@ -41,6 +38,8 @@ typedef struct person_st{
     Slaves SlavesList;
 }Person;
 
+
+
 typedef struct tree_st
 {
     int n;
@@ -49,13 +48,11 @@ typedef struct tree_st
     Person * Schemer;
 }Tree;
 
-
-typedef struct friendPersone_st
+typedef struct friendPerson_st
 {
-    //bool type;
     Person * person;
-    // struct friendPersone_st * previous;
-    struct friendPersone_st * next;
-}FriendPersone;
+    struct friendPerson_st * previous;
+    struct friendPerson_st * next;
+}FriendPerson;
 
 #endif

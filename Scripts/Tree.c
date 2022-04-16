@@ -94,3 +94,13 @@ void TreeCreate(Tree *tree, Person ** personss, OperationLine *operationLines)
         }
     }
 }
+
+void FreeTree(Person ** Persons, int n)
+{
+    for(int i = 0; i < n; i++)
+    {
+        free((*Persons)[i].FriendsList.Friends);
+        free((*Persons)[i].SlavesList.Slaves);
+    }
+    free(*Persons);
+}
