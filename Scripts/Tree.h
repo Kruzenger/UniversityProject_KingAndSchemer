@@ -3,6 +3,10 @@
 
 #include "./MainStructs.h"
 
+int fsize(FILE *fp);
+
+int get_fsize(FILE *input);
+
 int CountLines(FILE *input);
 
 void ReadNumbers (FILE *input, Tree *tree);
