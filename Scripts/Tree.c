@@ -4,28 +4,19 @@
 #include "./Tree.h"
 #include <errno.h>
 
-int fsize(FILE *fp)
-{
-    int prev = ftell(fp);
-    fseek(fp, 0L, SEEK_END);
-    int sz = ftell(fp);
-    fseek(fp,prev,SEEK_SET);
-    return sz;
-}
-
-int get_fsize(FILE *input)
-{
-    int file_size;
-    file_size = fsize(input);
-    return file_size;
-}
-
 int CountLines(FILE *input) 
 {
-    int a;
-    a = get_fsize(input);
-    return (a - 3) / 6;
-    // return 6;
+fseek(input, 0, SEEK_END);
+long fsize = ftell(input);
+fseek(input, 0, SEEK_SET);
+char *string = calloc(1, fsize + 1);
+fread(string, fsize, 1, input);
+int count;
+for (int i = 0; i < fsize; i ++) {
+    if (string[i] == '\n') count++;
+}
+return count - 1;
+free(string);
 }
 
 void ReadNumbers (FILE *input, Tree *tree) 
@@ -37,7 +28,7 @@ void ReadNumbers (FILE *input, Tree *tree)
 void FileWorker(Tree *tree, OperationLine **operationLines) 
 {
     FILE *input;
-    input = fopen("plots.txt", "r");
+    input = fopen("./Tests/test1.txt", "r");
     if (errno) {
         perror("plots.txt");
     }
