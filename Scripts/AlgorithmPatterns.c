@@ -23,7 +23,7 @@ bool IsInPersonPassed(Person * friendPerson, Person ** personsPassed)
     return false;
 }
 
-FriendPerson ** FindChainOfFriendsToUs(Person * headPerson, Person * lord, int numOfMen, bool slaves)
+FriendPerson ** FindChainOfFriendsToUs(Person * headPerson, Person * lord, int numOfMen, bool slaves, int k)
 {
     FriendPerson ** Chains;
     Chains = (FriendPerson **)calloc(numOfMen, sizeof(FriendPerson *));
@@ -34,7 +34,7 @@ FriendPerson ** FindChainOfFriendsToUs(Person * headPerson, Person * lord, int n
 
     for (int i = 0; headPerson->FriendsList.Friends[i]; i++)
     {
-        Chains[counter] = RecursiveFindOfChain(headPerson->FriendsList.Friends[i], lord, personsPassed, slaves);
+        Chains[counter] = RecursiveFindOfChain(headPerson->FriendsList.Friends[i], lord, personsPassed, slaves, k);
         if(Chains[counter] != NULL)
         {
             FriendPerson * friendPerson = (FriendPerson *)calloc(1, sizeof(FriendPerson));
@@ -46,6 +46,7 @@ FriendPerson ** FindChainOfFriendsToUs(Person * headPerson, Person * lord, int n
             {
                 Chains[counter] = Chains[counter]->next;
             }
+            Chains[counter] = Chains[counter]->previous;
             counter++;
         }
     }
@@ -55,11 +56,8 @@ FriendPerson ** FindChainOfFriendsToUs(Person * headPerson, Person * lord, int n
     return Chains;
 }
 
-FriendPerson * RecursiveFindOfChain(Person * headPerson, Person * lord, Person ** personsPassed, bool slaves)
+FriendPerson * RecursiveFindOfChain(Person * headPerson, Person * lord, Person ** personsPassed, bool slaves, int k)
 {
-    if(slaves && headPerson->Lord == lord)
-        return NULL;
-
     if(headPerson->Lord == lord)
     {
         FriendPerson * friendPerson = (FriendPerson *)calloc(1, sizeof(FriendPerson));
@@ -67,13 +65,16 @@ FriendPerson * RecursiveFindOfChain(Person * headPerson, Person * lord, Person *
         return friendPerson;
     }
 
+    if((slaves && headPerson->Lord == lord) || (!slaves && CheckFriendLimit(headPerson, k)))
+        return NULL;
+
     AddPerson(headPerson, personsPassed);
 
     for(int i = 0; headPerson->FriendsList.Friends[i]; i++)
     {
         if(!IsInPersonPassed(headPerson->FriendsList.Friends[i], personsPassed))
         {
-            FriendPerson * friendPersonNext = RecursiveFindOfChain(headPerson->FriendsList.Friends[i], lord, personsPassed, slaves);
+            FriendPerson * friendPersonNext = RecursiveFindOfChain(headPerson->FriendsList.Friends[i], lord, personsPassed, slaves, k);
             if(friendPersonNext != NULL)
             {
                 FriendPerson * friendPerson = (FriendPerson *)calloc(1, sizeof(FriendPerson));
@@ -86,6 +87,11 @@ FriendPerson * RecursiveFindOfChain(Person * headPerson, Person * lord, Person *
     }
 
     return NULL;
+}
+
+void SufferTroughChain(FriendPerson * Chain)
+{
+    
 }
 
 void FreeChains(FriendPerson ** Chains)
