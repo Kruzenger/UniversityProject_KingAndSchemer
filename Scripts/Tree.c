@@ -6,17 +6,17 @@
 
 int CountLines(FILE *input) 
 {
-fseek(input, 0, SEEK_END);
-long fsize = ftell(input);
-fseek(input, 0, SEEK_SET);
-char *string = calloc(1, fsize + 1);
-fread(string, fsize, 1, input);
-int count;
-for (int i = 0; i < fsize; i ++) {
-    if (string[i] == '\n') count++;
-}
-return count - 1;
-free(string);
+    fseek(input, 0, SEEK_END);
+    long fsize = ftell(input);
+    fseek(input, 0, SEEK_SET);
+    char *string = calloc(1, fsize + 1);
+    fread(string, fsize, 1, input);
+    int count;
+    for (int i = 0; i < fsize; i ++) {
+        if (string[i] == '\n') count++;
+    }
+    return count - 1;
+    free(string);
 }
 
 void ReadNumbers (FILE *input, Tree *tree) 
