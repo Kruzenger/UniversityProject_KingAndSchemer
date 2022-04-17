@@ -43,9 +43,9 @@ void ReadNumbers (FILE *input, Tree *tree)
 void FileWorker(Tree *tree, OperationLine **operationLines) 
 {
     FILE *input;
-    input = fopen("./Tests/test1.txt", "r");
+    input = fopen("./Tests/test2.txt", "r");
     if (errno) {
-        perror("./Tests/test1.txt");
+        perror("./Tests/test2.txt");
     }
     int n = CountLines(input);
     ReadNumbers(input, tree);
