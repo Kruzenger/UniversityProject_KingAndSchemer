@@ -42,11 +42,17 @@ FriendPerson ** FindChainOfFriendsToUs(Person * headPerson, Person * lord, int n
             friendPerson->next = Chains[counter];
             Chains[counter]->previous = friendPerson;
 
-            for(int j = 0; Chains[counter + 1]; j++)
+            if(slaves)
             {
-                Chains[counter] = Chains[counter]->next;
+                for(int i = 0; Chains[counter]->next; i++)
+                {
+                    Chains[counter] = Chains[counter]->next;
+                }
             }
-            Chains[counter] = Chains[counter]->previous;
+            else
+            {
+                Chains[counter] = Chains[counter]->previous;
+            }
             counter++;
         }
     }
