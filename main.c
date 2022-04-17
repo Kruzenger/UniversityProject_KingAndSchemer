@@ -10,16 +10,16 @@
 
 int main() {
     Tree tree;
-    
     Person *Persons;
     OperationLine *operationLines;
     FileWorker(&tree, &operationLines);
     TreeCreate(&tree, &Persons, operationLines);
-    FriendPerson ** FriendChains = FindChainOfFriendsToUs(tree.King, tree.Schemer->Lord, tree.n, false);
-    FriendPerson ** SlaveChains = FindChainOfFriendsToUs(tree.King, tree.Schemer, tree.n, true);
+    FriendPerson ** FriendChains = FindChainOfFriendsToUs(tree.King, tree.Schemer->Lord, tree.n, false, tree.k);
+    FriendPerson ** SlaveChains = FindChainOfFriendsToUs(tree.King, tree.Schemer, tree.n, true, tree.k);
     FreeChains(FriendChains);
     FreeChains(SlaveChains);
     free(operationLines);
     FreeTree(&Persons, tree.n);
 }
+
 
