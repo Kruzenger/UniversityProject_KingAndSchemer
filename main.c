@@ -4,22 +4,20 @@
 
 #include "./Scripts/Tree.h"
 #include "./Scripts/SchemerActions.h"
-#include "./Scripts/ConspiracyAlgorithm.h"
-#include "./Scripts/MainStructs.h"
 #include "./Scripts/AlgorithmPatterns.h"
+#include "./Scripts/MainStructs.h"
+#include "./Scripts/ConspiracyAlgorithm.h"
 
-int main() {
+int main() 
+{
     Tree tree;
     Person *Persons;
     OperationLine *operationLines;
     FileWorker(&tree, &operationLines);
     TreeCreate(&tree, &Persons, operationLines);
-    FriendPerson ** FriendChains = FindChainOfFriendsToUs(tree.King, tree.Schemer->Lord, tree.n, false, tree.k);
-    FriendPerson ** SlaveChains = FindChainOfFriendsToUs(tree.King, tree.Schemer, tree.n, true, tree.k);
-    FreeChains(FriendChains);
-    FreeChains(SlaveChains);
+
+    TheConspiracyAlgorithm(tree);
+
     free(operationLines);
     FreeTree(&Persons, tree.n);
 }
-
-

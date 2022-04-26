@@ -43,9 +43,9 @@ void ReadNumbers (FILE *input, Tree *tree)
 void FileWorker(Tree *tree, OperationLine **operationLines) 
 {
     FILE *input;
-    input = fopen("./Tests/test2.txt", "r");
+    input = fopen("./Tests/test10.txt", "r");
     if (errno) {
-        perror("./Tests/test2.txt");
+        perror("./Tests/test10.txt");
     }
     int n = CountLines(input);
     ReadNumbers(input, tree);
@@ -67,12 +67,14 @@ OperationLine * RelationsRead(FILE *input, int n)
     return operationLine;
 }
 
-Person * PersonsCreate(Tree *tree){
-    Person *p = (Person*)calloc(tree->n, sizeof(Person));
-    for (int i = 0; i < tree->n; i++) {
+Person * PersonsCreate(Tree *tree)
+{
+    Person * p = (Person *)calloc(tree->n, sizeof(Person));
+    for (int i = 0; i < tree->n; i++) 
+    {
         p[i].name = i + 1;
-        p[i].FriendsList.Friends = (Person **)calloc(tree->k, sizeof(Person *));
-        p[i].SlavesList.Slaves = (Person **)calloc(tree->n - 1, sizeof(Person *));
+        p[i].FriendsList.Friends = (Person **)calloc(tree->k + 1, sizeof(Person *));
+        p[i].SlavesList.Slaves = (Person **)calloc(tree->n, sizeof(Person *));
         p[i].FriendsList.LastFriend = p[i].FriendsList.Friends;
         p[i].SlavesList.LastSlave = p[i].SlavesList.Slaves;
     }
@@ -86,14 +88,17 @@ void TreeCreate(Tree *tree, Person ** personss, OperationLine *operationLines)
     tree->King = &(persons[0]);
     tree->Schemer = &(persons[tree->n - 1]);
     
-    for (int i = 0; operationLines[i].operation; i++) {
-        if(operationLines[i].operation == '='){
+    for (int i = 0; operationLines[i].operation; i++) 
+    {
+        if(operationLines[i].operation == '=')
+        {
             *(persons[operationLines[i].person1 - 1].FriendsList.LastFriend) = &persons[operationLines[i].person2 - 1];
             persons[operationLines[i].person1 - 1].FriendsList.LastFriend++;           
             *(persons[operationLines[i].person2 - 1].FriendsList.LastFriend) = &persons[operationLines[i].person1 - 1];
             persons[operationLines[i].person2 - 1].FriendsList.LastFriend++;
         }
-        if (operationLines[i].operation == '>'){
+        if (operationLines[i].operation == '>')
+        {
             *(persons[operationLines[i].person1 - 1].SlavesList.LastSlave) = &persons[operationLines[i].person2 - 1];
             persons[operationLines[i].person1 - 1].SlavesList.LastSlave++;
             persons[operationLines[i].person2 - 1].Lord = &persons[operationLines[i].person1 - 1];

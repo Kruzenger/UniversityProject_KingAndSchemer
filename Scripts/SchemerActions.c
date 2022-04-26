@@ -53,17 +53,33 @@ void MakeFriends(Person * Schemer, Person * person) {
 } // makes friends with a person
 
 
-void FallOut(Person * Schemer, Person * person) {
-    for (int i = 0; Schemer->FriendsList.Friends[i] != *(Schemer->FriendsList.LastFriend); i++) {
-        if (Schemer->FriendsList.Friends[i] == person) {
+void FallOut(Person * Schemer, Person * person) 
+{
+    for (int i = 0; Schemer->FriendsList.Friends[i]; i++) 
+    {
+        if (Schemer->FriendsList.Friends[i] == person) 
+        {
             Schemer->FriendsList.Friends[i] = NULL;
             Schemer->FriendsList.LastFriend--;
+            for(int j = i; &(Schemer->FriendsList.Friends[j]) != Schemer->FriendsList.LastFriend; j++)
+            {
+                Schemer->FriendsList.Friends[j] = Schemer->FriendsList.Friends[j + 1];
+            }
+            *(Schemer->FriendsList.LastFriend) = NULL;
         }
     }
-    for (int i = 0; person->FriendsList.Friends[i] != *(person->FriendsList.LastFriend); i++) {
-        if (person->FriendsList.Friends[i] == Schemer) {
+
+    for (int i = 0; person->FriendsList.Friends[i]; i++) 
+    {
+        if (person->FriendsList.Friends[i] == Schemer) 
+        {
             person->FriendsList.Friends[i] = NULL;
             person->FriendsList.LastFriend--;
+            for(int j = i; &(person->FriendsList.Friends[j]) != person->FriendsList.LastFriend; j++)
+            {
+                person->FriendsList.Friends[j] = person->FriendsList.Friends[j + 1];
+            }
+            *(person->FriendsList.LastFriend) = NULL;
         }
     }
 } // fall out with a person
@@ -95,7 +111,8 @@ bool CanMakeConspiracy(Person * Schemer, Person * person) {
     return(sign/i);
 } // checks if you can make conspiracy of a person
 
-void StopBeingSlave(Person *Schemer, Person * Person_lord) {
+void StopBeingSlave(Person *Schemer) {
+    Person * Person_lord = Schemer->Lord;
     Schemer->Lord = NULL;
     for (int i = 0; Person_lord->SlavesList.Slaves[i] != *(Person_lord->SlavesList.LastSlave); i++) {
         if (Person_lord->SlavesList.Slaves[i] == Schemer) {

@@ -2,6 +2,9 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+#ifndef SCHEMER_ACTIONS_H_
+#define SCHEMER_ACTIONS_H_
+
 #include "./MainStructs.h"
 
 Person * CheckIfPersonASlave(Person * person); // checks if person has a lord +++
@@ -26,8 +29,10 @@ void MakeFriends(Person * Schemer, Person * person); // makes friends with a per
 
 void FallOut(Person * Schemer, Person * person); // fall out with a person
 
-void StopBeingSlave(Person *Schemer, Person * Person_lord);
+void StopBeingSlave(Person *Schemer);
 
 void BecomeASlave(Person * Schemer, Person * person); // mahes you a slave of a person
 
-void MakeSlave(Person * Schemer, Person * person); // makes someone our slave
+void MakeSlave(Person * Schemer, Person * person); // makes someone your slave
+
+#endif

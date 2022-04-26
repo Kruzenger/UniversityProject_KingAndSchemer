@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#ifndef TREE_H_
+#define TREE_H_
+
 #include "./MainStructs.h"
 
 int fsize(FILE *fp);
@@ -22,3 +25,5 @@ void TreeCreate(Tree *tree, Person ** persons, OperationLine *lines); // Объ�
 Person * GetPerson(Tree * tree); // ищет и возвращает персону из дерева
 
 void FreeTree(Person ** Persons, int n);
+
+#endif

@@ -2,9 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-#include "./MainStructs.h"
 #include "./AlgorithmPatterns.h"
-#include "./SchemerActions.h"
 
 void AddPerson(Person * friendPerson, Person ** personsPassed)
 {
@@ -23,18 +21,20 @@ bool IsInPersonPassed(Person * friendPerson, Person ** personsPassed)
     return false;
 }
 
-FriendPerson ** FindChainOfFriendsToUs(Person * headPerson, Person * lord, int numOfMen, bool slaves, int k)
+FriendPerson ** FindChainOfFriendsToUs(Person * headPerson, Person * lord, bool slaves, Tree tree)
 {
     FriendPerson ** Chains;
-    Chains = (FriendPerson **)calloc(numOfMen, sizeof(FriendPerson *));
+    Chains = (FriendPerson **)calloc(tree.n, sizeof(FriendPerson *));
     int counter = 0;
 
-    Person ** personsPassed = calloc(numOfMen, sizeof(Person*));
-    personsPassed[0] = headPerson;
+    Person ** personsPassed;
 
     for (int i = 0; headPerson->FriendsList.Friends[i]; i++)
     {
-        Chains[counter] = RecursiveFindOfChain(headPerson->FriendsList.Friends[i], lord, personsPassed, slaves, k);
+        personsPassed = calloc(tree.n, sizeof(Person*));
+        personsPassed[0] = headPerson;
+
+        Chains[counter] = RecursiveFindOfChain(headPerson->FriendsList.Friends[i], lord, personsPassed, slaves, tree);
         if(Chains[counter] != NULL)
         {
             FriendPerson * friendPerson = (FriendPerson *)calloc(1, sizeof(FriendPerson));
@@ -55,23 +55,22 @@ FriendPerson ** FindChainOfFriendsToUs(Person * headPerson, Person * lord, int n
             }
             counter++;
         }
+
+        free(personsPassed);
     }
-
-    free(personsPassed);
-
     return Chains;
 }
 
-FriendPerson * RecursiveFindOfChain(Person * headPerson, Person * lord, Person ** personsPassed, bool slaves, int k)
+FriendPerson * RecursiveFindOfChain(Person * headPerson, Person * lord, Person ** personsPassed, bool slaves, Tree tree)
 {
-    if(headPerson->Lord == lord)
+    if((headPerson->Lord == lord && lord != NULL) || (headPerson == tree.Schemer && !slaves))
     {
         FriendPerson * friendPerson = (FriendPerson *)calloc(1, sizeof(FriendPerson));
         friendPerson->person = headPerson;
         return friendPerson;
     }
 
-    if((slaves && headPerson->Lord == lord) || (!slaves && CheckFriendLimit(headPerson, k)))
+    if((slaves && headPerson->Lord == lord && lord != NULL) || (!slaves && CheckFriendLimit(headPerson, tree.k) && !CheckIfFriends(headPerson, tree.Schemer)))
         return NULL;
 
     AddPerson(headPerson, personsPassed);
@@ -80,7 +79,7 @@ FriendPerson * RecursiveFindOfChain(Person * headPerson, Person * lord, Person *
     {
         if(!IsInPersonPassed(headPerson->FriendsList.Friends[i], personsPassed))
         {
-            FriendPerson * friendPersonNext = RecursiveFindOfChain(headPerson->FriendsList.Friends[i], lord, personsPassed, slaves, k);
+            FriendPerson * friendPersonNext = RecursiveFindOfChain(headPerson->FriendsList.Friends[i], lord, personsPassed, slaves, tree);
             if(friendPersonNext != NULL)
             {
                 FriendPerson * friendPerson = (FriendPerson *)calloc(1, sizeof(FriendPerson));
@@ -95,15 +94,39 @@ FriendPerson * RecursiveFindOfChain(Person * headPerson, Person * lord, Person *
     return NULL;
 }
 
-void SufferTroughChain(FriendPerson * Chain)
+OperationLine * SufferTroughChain(FriendPerson * Chain)
 {
+    int num = 0;
+
+    while(Chain->previous != NULL)
+    {
+        MakeSlave(Chain->person->Lord, Chain->previous->person);
+        Chain = Chain->previous;
+        num++;
+    }
+
+    OperationLine * operations =  (OperationLine *)calloc(num + 1, sizeof(OperationLine));
+
+    operations[num].person1 = 0; 
+
+    while(Chain->next != NULL)
+    {
+        operations[num - 1].operation = '>';
+        operations[num - 1].person1 = Chain->person->name;
+        Chain = Chain->next;
+        num--;
+    }
     
+    return operations;
 }
 
 void FreeChains(FriendPerson ** Chains)
 {
     for(int i = 0; Chains[i] != NULL; i++)
     {
+        while(Chains[i]->next)
+            Chains[i] = Chains[i]->next;
+
         while(Chains[i]->previous != NULL)
         {
             free(Chains[i]->next);

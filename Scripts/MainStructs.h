@@ -1,15 +1,14 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 
 #ifndef A_H_INCLUDED // идентификатор ещё не определён
 #define A_H_INCLUDED // определяем
 
-typedef struct operationLine_st{
+typedef struct operationLine_st
+{
     char operation;
     int person1;
     int person2;
-    int NumOfOperation;
 }OperationLine;
 
 
@@ -23,13 +22,12 @@ typedef struct friends_st
 
 typedef struct slaves_st
 {
-
-struct person_st ** Slaves;
-struct person_st ** LastSlave;
-
+    struct person_st ** Slaves;
+    struct person_st ** LastSlave;
 }Slaves;
 
-typedef struct person_st{
+typedef struct person_st
+{
     int name;
     
     struct person_st * Lord;
